@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { AuthModal } from "@/components/AuthModal";
-import { Menu, X, GraduationCap, Users, Library, Accessibility } from "lucide-react";
+import { Menu, X, GraduationCap, Users, Library, Accessibility, Code } from "lucide-react";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -14,6 +14,7 @@ export function Navigation() {
   const navItems = [
     { href: "/", label: "Home", icon: null },
     { href: "/library", label: "Library", icon: Library },
+    { href: "/learn", label: "Learn", icon: Code },
     { href: "/mentors", label: "Mentors", icon: Users },
     { href: "/accessibility", label: "Accessibility", icon: Accessibility },
   ];

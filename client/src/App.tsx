@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import HomePage from "@/pages/HomePage";
 import LibraryPage from "@/pages/LibraryPage";
+import LearnPage from "@/pages/LearnPage";
 import MentorsPage from "@/pages/MentorsPage";
 import AccessibilityPage from "@/pages/AccessibilityPage";
 import UploadPage from "@/pages/UploadPage";
@@ -19,6 +20,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/library" component={LibraryPage} />
+      <Route path="/learn" component={LearnPage} />
       <Route path="/mentors" component={MentorsPage} />
       <Route path="/accessibility" component={AccessibilityPage} />
       <Route path="/upload" component={UploadPage} />
