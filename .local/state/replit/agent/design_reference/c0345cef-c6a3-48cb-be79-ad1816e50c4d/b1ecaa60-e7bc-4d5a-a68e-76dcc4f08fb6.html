@@ -1,0 +1,1070 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnLink - Connect, Learn, Grow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                }
+            }
+        }
+    };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --radius: 0.75rem;
+            
+            /* Light mode */
+            --background: hsl(210 40% 98%);
+            --foreground: hsl(222 84% 4.9%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222 84% 4.9%);
+            --popover: hsl(0 0% 100%);
+            --popover-foreground: hsl(222 84% 4.9%);
+            --primary: hsl(200 85% 60%);
+            --primary-foreground: hsl(210 40% 98%);
+            --secondary: hsl(150 70% 50%);
+            --secondary-foreground: hsl(222 84% 4.9%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215 16% 46.9%);
+            --accent: hsl(180 65% 55%);
+            --accent-foreground: hsl(222 84% 4.9%);
+            --destructive: hsl(0 84% 60%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(214 32% 91%);
+            --input: hsl(214 32% 91%);
+            --ring: hsl(200 85% 60%);
+        }
+        
+        * {
+            font-family: var(--font-sans);
+        }
+        
+        .glass-card {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-background text-foreground min-h-screen">
+    <!-- @COMPONENT: NavigationHeader -->
+    <nav class="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-primary-foreground text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">LearnLink</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-foreground hover:text-primary transition-colors font-medium" data-event="click:navigateHome">Home</a>
+                    <a href="#library" class="text-muted-foreground hover:text-primary transition-colors font-medium" data-event="click:navigateLibrary">Library</a>
+                    <a href="#mentors" class="text-muted-foreground hover:text-primary transition-colors font-medium" data-event="click:navigateMentors">Mentors</a>
+                    <a href="#accessibility" class="text-muted-foreground hover:text-primary transition-colors font-medium" data-event="click:navigateAccessibility">
+                        <i class="fas fa-universal-access mr-2"></i>Accessibility
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- @STATE: isAuthenticated:boolean = false -->
+                    <button class="px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all" data-event="click:handleSignIn">
+                        Sign In
+                    </button>
+                    <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all" data-event="click:handleSignUp">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-muted transition-colors" data-event="click:toggleMobileMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <!-- @STATE: mobileMenuOpen:boolean = false -->
+        <div class="md:hidden border-t border-border bg-card">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#home" class="block py-2 text-foreground hover:text-primary transition-colors font-medium">Home</a>
+                <a href="#library" class="block py-2 text-muted-foreground hover:text-primary transition-colors font-medium">Library</a>
+                <a href="#mentors" class="block py-2 text-muted-foreground hover:text-primary transition-colors font-medium">Mentors</a>
+                <a href="#accessibility" class="block py-2 text-muted-foreground hover:text-primary transition-colors font-medium">
+                    <i class="fas fa-universal-access mr-2"></i>Accessibility
+                </a>
+                <div class="pt-3 border-t border-border space-y-2">
+                    <button class="w-full px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-all">
+                        Sign In
+                    </button>
+                    <button class="w-full px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: NavigationHeader -->
+
+    <!-- @COMPONENT: HeroSection -->
+    <section id="home" class="relative overflow-hidden bg-gradient-to-br from-background to-muted py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                            Connect, Learn, <span class="gradient-text">Grow</span> Together
+                        </h1>
+                        <p class="text-xl text-muted-foreground leading-relaxed">
+                            Join LearnLink, the inclusive platform where students and mentors connect to share knowledge, 
+                            accessible content, and meaningful learning experiences.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all transform hover:scale-105" data-event="click:handleGetStarted">
+                            <i class="fas fa-rocket mr-2"></i>Get Started
+                        </button>
+                        <button class="px-8 py-4 border border-border rounded-lg font-semibold hover:bg-muted transition-all" data-event="click:handleExploreContent">
+                            <i class="fas fa-play-circle mr-2"></i>Explore Content
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-6 pt-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                            <span class="text-sm text-muted-foreground">Accessible Learning</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-accent rounded-full"></div>
+                            <span class="text-sm text-muted-foreground">Expert Mentors</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-primary rounded-full"></div>
+                            <span class="text-sm text-muted-foreground">Interactive Content</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <!-- A diverse group of students collaborating on laptops in a modern classroom -->
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                         alt="Students collaborating in modern classroom" 
+                         class="rounded-xl shadow-2xl floating-animation w-full" />
+                    
+                    <div class="absolute -bottom-6 -left-6 glass-card rounded-xl p-4 shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-secondary rounded-full animate-pulse"></div>
+                            <span class="text-sm font-medium" data-mock="true">500+ Active Learners</span>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute -top-6 -right-6 glass-card rounded-xl p-4 shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-star text-accent"></i>
+                            <span class="text-sm font-medium" data-mock="true">4.9/5 Rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- @COMPONENT: ContentLibrary -->
+    <section id="library" class="py-20 bg-muted/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold">Learning Library</h2>
+                <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
+                    Discover curated learning materials including interactive content, PDFs, videos, and accessible resources 
+                    designed for all learning styles.
+                </p>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="mb-12 space-y-4">
+                <div class="relative max-w-lg mx-auto">
+                    <input type="text" 
+                           placeholder="Search learning materials..." 
+                           class="w-full px-4 py-3 pl-12 bg-card border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
+                           data-implementation="Connect to search functionality" />
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground"></i>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition-colors">All</button>
+                    <button class="px-4 py-2 bg-muted text-muted-foreground rounded-full text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">Videos</button>
+                    <button class="px-4 py-2 bg-muted text-muted-foreground rounded-full text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">PDFs</button>
+                    <button class="px-4 py-2 bg-muted text-muted-foreground rounded-full text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">Interactive</button>
+                    <button class="px-4 py-2 bg-muted text-muted-foreground rounded-full text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">Sign Language</button>
+                </div>
+            </div>
+
+            <!-- @MAP: contentItems.map(item => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group overflow-hidden" data-event="click:openContent">
+                    <!-- A person using a tablet for digital learning with educational icons -->
+                    <img src="https://pixabay.com/get/g5596f4d6cd3465483014156e94c7cc257c9e21fb876bd9c44d84c9d6b5003a8a26351bb13d06366983f43938199dd6353acbbaf8a4f2ec3edc07457194819d81_1280.jpg" 
+                         alt="Digital learning on tablet" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium" data-mock="true">Interactive</span>
+                            <i class="fas fa-bookmark text-muted-foreground hover:text-primary cursor-pointer transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold group-hover:text-primary transition-colors" data-bind="content.title" data-mock="true">
+                            Introduction to Web Development
+                        </h3>
+                        <p class="text-muted-foreground" data-bind="content.description" data-mock="true">
+                            Learn the fundamentals of HTML, CSS, and JavaScript with hands-on projects and real-world examples.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-secondary-foreground" data-mock="true">JS</span>
+                                </div>
+                                <span class="text-sm text-muted-foreground" data-bind="content.author" data-mock="true">Jane Smith</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm" data-bind="content.rating" data-mock="true">4.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group overflow-hidden" data-event="click:openContent">
+                    <!-- A sign language interpreter teaching in a classroom setting -->
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300" 
+                         alt="Sign language interpreter in classroom" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium" data-mock="true">Sign Language</span>
+                            <i class="fas fa-bookmark text-muted-foreground hover:text-primary cursor-pointer transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold group-hover:text-primary transition-colors" data-bind="content.title" data-mock="true">
+                            ASL Basics for Beginners
+                        </h3>
+                        <p class="text-muted-foreground" data-bind="content.description" data-mock="true">
+                            Master essential American Sign Language skills with interactive video lessons and practice exercises.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                                    <i class="fas fa-hands text-accent-foreground text-xs"></i>
+                                </div>
+                                <span class="text-sm text-muted-foreground" data-bind="content.author" data-mock="true">Maria Garcia</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm" data-bind="content.rating" data-mock="true">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group overflow-hidden" data-event="click:openContent">
+                    <!-- A data scientist working with charts and graphs on multiple monitors -->
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300" 
+                         alt="Data scientist working with charts and analytics" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-medium" data-mock="true">PDF Guide</span>
+                            <i class="fas fa-bookmark text-muted-foreground hover:text-primary cursor-pointer transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold group-hover:text-primary transition-colors" data-bind="content.title" data-mock="true">
+                            Data Science Fundamentals
+                        </h3>
+                        <p class="text-muted-foreground" data-bind="content.description" data-mock="true">
+                            Comprehensive guide to data analysis, visualization, and machine learning concepts with Python examples.
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                    <i class="fas fa-chart-bar text-primary-foreground text-xs"></i>
+                                </div>
+                                <span class="text-sm text-muted-foreground" data-bind="content.author" data-mock="true">Dr. Alex Chen</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm" data-bind="content.rating" data-mock="true">4.7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/90 transition-all" data-event="click:loadMoreContent">
+                    Load More Content
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- @COMPONENT: MentorDirectory -->
+    <section id="mentors" class="py-20 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold">Meet Your Mentors</h2>
+                <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
+                    Connect with experienced professionals who are passionate about sharing their knowledge and helping you succeed.
+                </p>
+            </div>
+
+            <!-- @MAP: mentors.map(mentor => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 group">
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <!-- Professional headshot of a friendly female software engineer -->
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300" 
+                                 alt="Professional mentor headshot" 
+                                 class="w-20 h-20 rounded-full object-cover mx-auto ring-4 ring-primary/20" />
+                            <div class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 w-4 h-4 bg-secondary rounded-full border-2 border-card"></div>
+                        </div>
+                        
+                        <div class="text-center space-y-2">
+                            <h3 class="text-xl font-semibold" data-bind="mentor.name" data-mock="true">Sarah Johnson</h3>
+                            <p class="text-muted-foreground" data-bind="mentor.title" data-mock="true">Senior Software Engineer at Google</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium" data-mock="true">JavaScript</span>
+                                <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-medium" data-mock="true">React</span>
+                                <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium" data-mock="true">Node.js</span>
+                            </div>
+                            
+                            <p class="text-sm text-muted-foreground text-center" data-bind="mentor.bio" data-mock="true">
+                                5+ years helping developers master full-stack development. Passionate about inclusive coding practices.
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm font-medium" data-bind="mentor.rating" data-mock="true">4.9</span>
+                                <span class="text-xs text-muted-foreground" data-bind="mentor.reviews" data-mock="true">(127)</span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors group-hover:scale-105 transform" data-event="click:connectWithMentor">
+                                <i class="fas fa-message mr-2"></i>Connect
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 group">
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <!-- Professional headshot of a confident male designer working at a creative agency -->
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300" 
+                                 alt="Professional mentor headshot" 
+                                 class="w-20 h-20 rounded-full object-cover mx-auto ring-4 ring-primary/20" />
+                            <div class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 w-4 h-4 bg-secondary rounded-full border-2 border-card"></div>
+                        </div>
+                        
+                        <div class="text-center space-y-2">
+                            <h3 class="text-xl font-semibold" data-bind="mentor.name" data-mock="true">Marcus Rodriguez</h3>
+                            <p class="text-muted-foreground" data-bind="mentor.title" data-mock="true">UX Design Lead at Adobe</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium" data-mock="true">UX Design</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium" data-mock="true">Figma</span>
+                                <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-medium" data-mock="true">Accessibility</span>
+                            </div>
+                            
+                            <p class="text-sm text-muted-foreground text-center" data-bind="mentor.bio" data-mock="true">
+                                Specializing in accessible design and inclusive user experiences. 8+ years in product design.
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm font-medium" data-bind="mentor.rating" data-mock="true">4.8</span>
+                                <span class="text-xs text-muted-foreground" data-bind="mentor.reviews" data-mock="true">(89)</span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors group-hover:scale-105 transform" data-event="click:connectWithMentor">
+                                <i class="fas fa-message mr-2"></i>Connect
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 group">
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <!-- Professional headshot of a female data scientist working with machine learning -->
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300" 
+                                 alt="Professional mentor headshot" 
+                                 class="w-20 h-20 rounded-full object-cover mx-auto ring-4 ring-primary/20" />
+                            <div class="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 w-4 h-4 bg-secondary rounded-full border-2 border-card"></div>
+                        </div>
+                        
+                        <div class="text-center space-y-2">
+                            <h3 class="text-xl font-semibold" data-bind="mentor.name" data-mock="true">Dr. Emily Watson</h3>
+                            <p class="text-muted-foreground" data-bind="mentor.title" data-mock="true">Data Science Manager at Microsoft</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-medium" data-mock="true">Python</span>
+                                <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium" data-mock="true">Machine Learning</span>
+                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium" data-mock="true">Statistics</span>
+                            </div>
+                            
+                            <p class="text-sm text-muted-foreground text-center" data-bind="mentor.bio" data-mock="true">
+                                PhD in Computer Science. Helping students transition into data science careers for 6+ years.
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-border">
+                            <div class="flex items-center space-x-1">
+                                <i class="fas fa-star text-accent"></i>
+                                <span class="text-sm font-medium" data-bind="mentor.rating" data-mock="true">5.0</span>
+                                <span class="text-xs text-muted-foreground" data-bind="mentor.reviews" data-mock="true">(156)</span>
+                            </div>
+                            <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors group-hover:scale-105 transform" data-event="click:connectWithMentor">
+                                <i class="fas fa-message mr-2"></i>Connect
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP )) -->
+
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 border border-border rounded-lg font-semibold hover:bg-muted transition-all" data-event="click:viewAllMentors">
+                    View All Mentors
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: MentorDirectory -->
+
+    <!-- @COMPONENT: AccessibilitySection -->
+    <section id="accessibility" class="py-20 bg-muted/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold">Accessible Learning for Everyone</h2>
+                <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
+                    We believe education should be accessible to all. Our platform includes comprehensive accessibility features 
+                    and sign language content to ensure inclusive learning experiences.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-card rounded-xl p-8 text-center space-y-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-universal-access text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">Universal Access</h3>
+                    <p class="text-muted-foreground">
+                        Screen reader compatible, keyboard navigation, and high contrast modes for users with different abilities.
+                    </p>
+                </div>
+
+                <div class="bg-card rounded-xl p-8 text-center space-y-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-hands text-2xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">Sign Language Videos</h3>
+                    <p class="text-muted-foreground">
+                        Professional ASL interpretation for all video content, plus dedicated sign language learning courses.
+                    </p>
+                </div>
+
+                <div class="bg-card rounded-xl p-8 text-center space-y-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-closed-captioning text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">Captions & Transcripts</h3>
+                    <p class="text-muted-foreground">
+                        Accurate captions and full transcripts available for all audio and video content.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sign Language Video Player -->
+            <div class="mt-16 bg-card rounded-xl p-8 shadow-lg">
+                <h3 class="text-2xl font-semibold mb-8 text-center">Featured: ASL Introduction Course</h3>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="aspect-video bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <!-- A sign language instructor teaching basic ASL in a well-lit studio -->
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450" 
+                             alt="Sign language instructor teaching ASL" 
+                             class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors" data-event="click:playVideo">
+                                <i class="fas fa-play text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <!-- Video Controls for accessibility -->
+                        <div class="absolute bottom-4 left-4 right-4 bg-black/60 rounded-lg p-3">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center space-x-3">
+                                    <button class="hover:text-primary transition-colors" data-event="click:togglePlay">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <span class="text-sm" data-mock="true">02:34 / 15:42</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <button class="hover:text-primary transition-colors" data-event="click:toggleCaptions">
+                                        <i class="fas fa-closed-captioning"></i>
+                                    </button>
+                                    <button class="hover:text-primary transition-colors" data-event="click:adjustSpeed">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </button>
+                                    <button class="hover:text-primary transition-colors" data-event="click:toggleFullscreen">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <h4 class="text-xl font-semibold">Basic Greetings in ASL</h4>
+                        <p class="text-muted-foreground">
+                            Learn fundamental greeting signs including "hello," "how are you," and "nice to meet you" 
+                            with clear demonstrations and practice exercises.
+                        </p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                                <i class="fas fa-check-circle text-secondary"></i>
+                                <span class="text-sm">Professional ASL instruction</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                                <i class="fas fa-check-circle text-secondary"></i>
+                                <span class="text-sm">Interactive practice sessions</span>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                                <i class="fas fa-check-circle text-secondary"></i>
+                                <span class="text-sm">Cultural context and tips</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors" data-event="click:startASLCourse">
+                            Start Learning ASL
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: AccessibilitySection -->
+
+    <!-- @COMPONENT: MessagingInterface -->
+    <section class="py-20 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold">Connect & Communicate</h2>
+                <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
+                    Our integrated messaging system makes it easy to connect with mentors, ask questions, 
+                    and collaborate on learning projects.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-card rounded-xl shadow-lg overflow-hidden">
+                <div class="grid md:grid-cols-3 h-96">
+                    <!-- Conversation List -->
+                    <div class="bg-muted/50 border-r border-border">
+                        <div class="p-4 border-b border-border">
+                            <h3 class="font-semibold">Messages</h3>
+                        </div>
+                        <div class="space-y-1">
+                            <!-- @MAP: conversations.map(conversation => ( -->
+                            <div class="p-4 hover:bg-muted/80 cursor-pointer border-l-4 border-primary" data-event="click:selectConversation">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground" data-mock="true">SJ</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium truncate" data-bind="conversation.mentorName" data-mock="true">Sarah Johnson</p>
+                                        <p class="text-xs text-muted-foreground truncate" data-bind="conversation.lastMessage" data-mock="true">Great question about React hooks...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 hover:bg-muted/80 cursor-pointer" data-event="click:selectConversation">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-accent-foreground" data-mock="true">MR</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium truncate" data-bind="conversation.mentorName" data-mock="true">Marcus Rodriguez</p>
+                                        <p class="text-xs text-muted-foreground truncate" data-bind="conversation.lastMessage" data-mock="true">Your design looks fantastic! Just a few...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+
+                    <!-- Chat Interface -->
+                    <div class="md:col-span-2 flex flex-col">
+                        <!-- Chat Header -->
+                        <div class="p-4 border-b border-border bg-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground" data-mock="true">SJ</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium" data-bind="selectedMentor.name" data-mock="true">Sarah Johnson</p>
+                                        <p class="text-xs text-muted-foreground">Online now</p>
+                                    </div>
+                                </div>
+                                <button class="p-2 hover:bg-muted rounded-lg transition-colors" data-event="click:openMentorProfile">
+                                    <i class="fas fa-info-circle text-muted-foreground"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="flex-1 p-4 space-y-4 overflow-y-auto" data-implementation="Implement real-time messaging with Firebase">
+                            <!-- @MAP: messages.map(message => ( -->
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-secondary-foreground" data-mock="true">SJ</span>
+                                </div>
+                                <div class="bg-muted rounded-lg p-3 max-w-xs">
+                                    <p class="text-sm" data-bind="message.content" data-mock="true">
+                                        Hi! I saw your question about React hooks. The key thing to remember is that useState 
+                                        returns an array with the current value and a setter function.
+                                    </p>
+                                    <p class="text-xs text-muted-foreground mt-2" data-bind="message.timestamp" data-mock="true">2:34 PM</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 justify-end">
+                                <div class="bg-primary rounded-lg p-3 max-w-xs">
+                                    <p class="text-sm text-primary-foreground" data-bind="message.content" data-mock="true">
+                                        Thanks! That makes sense. Could you also explain useEffect?
+                                    </p>
+                                    <p class="text-xs text-primary-foreground/70 mt-2" data-bind="message.timestamp" data-mock="true">2:36 PM</p>
+                                </div>
+                                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-primary-foreground" data-mock="true">Me</span>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+
+                        <!-- Message Input -->
+                        <div class="p-4 border-t border-border">
+                            <div class="flex items-center space-x-3">
+                                <input type="text" 
+                                       placeholder="Type your message..." 
+                                       class="flex-1 px-4 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
+                                       data-implementation="Connect to real-time messaging" />
+                                <button class="p-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors" data-event="click:sendMessage">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: MessagingInterface -->
+
+    <!-- @COMPONENT: UploadSection -->
+    <section class="py-20 bg-background">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">Share Your Knowledge</h2>
+                <p class="text-lg text-muted-foreground">
+                    Upload learning materials, create courses, and contribute to our growing knowledge base.
+                </p>
+            </div>
+
+            <div class="bg-card rounded-xl shadow-lg p-8">
+                <form class="space-y-8" data-implementation="Connect to Firebase Storage and Firestore">
+                    <div class="space-y-4">
+                        <label class="block text-sm font-medium">Content Title</label>
+                        <input type="text" 
+                               placeholder="Enter a descriptive title for your content..." 
+                               class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
+                               data-bind="form.title" />
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="block text-sm font-medium">Description</label>
+                        <textarea rows="4" 
+                                  placeholder="Describe what learners will gain from this content..."
+                                  class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent resize-none"
+                                  data-bind="form.description"></textarea>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <label class="block text-sm font-medium">Category</label>
+                            <select class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent" data-bind="form.category">
+                                <option>Select a category...</option>
+                                <option>Programming</option>
+                                <option>Design</option>
+                                <option>Data Science</option>
+                                <option>Sign Language</option>
+                                <option>Business</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <label class="block text-sm font-medium">Difficulty Level</label>
+                            <select class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent" data-bind="form.difficulty">
+                                <option>Select difficulty...</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="space-y-4">
+                        <label class="block text-sm font-medium">Upload Files</label>
+                        <div class="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary transition-colors">
+                            <div class="space-y-4">
+                                <div class="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto">
+                                    <i class="fas fa-cloud-upload-alt text-2xl text-muted-foreground"></i>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-medium">Drop files here or click to browse</p>
+                                    <p class="text-sm text-muted-foreground">Supports PDFs, videos, images, and documents</p>
+                                </div>
+                                <button type="button" class="px-6 py-3 bg-muted text-muted-foreground rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors" data-event="click:browseFiles">
+                                    Choose Files
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accessibility Options -->
+                    <div class="space-y-4">
+                        <label class="block text-sm font-medium">Accessibility Features</label>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <label class="flex items-center space-x-3 p-4 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-primary border-border rounded focus:ring-ring" data-bind="form.hasSignLanguage" />
+                                <span class="text-sm">Include sign language interpretation</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-4 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-primary border-border rounded focus:ring-ring" data-bind="form.hasCaptions" />
+                                <span class="text-sm">Closed captions available</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-4 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-primary border-border rounded focus:ring-ring" data-bind="form.hasTranscript" />
+                                <span class="text-sm">Transcript provided</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-4 border border-border rounded-lg hover:bg-muted transition-colors cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-primary border-border rounded focus:ring-ring" data-bind="form.isHighContrast" />
+                                <span class="text-sm">High contrast compatible</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                        <button type="button" class="flex-1 px-6 py-3 border border-border rounded-lg font-semibold hover:bg-muted transition-colors" data-event="click:saveDraft">
+                            Save as Draft
+                        </button>
+                        <button type="submit" class="flex-1 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors" data-event="click:publishContent">
+                            Publish Content
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: UploadSection -->
+
+    <!-- @COMPONENT: AuthModal -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden" id="authModal" data-implementation="Show/hide based on authentication state">
+        <div class="bg-card rounded-xl shadow-2xl p-8 w-full max-w-md mx-4">
+            <div class="text-center space-y-6">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold">Welcome to LearnLink</h2>
+                    <p class="text-muted-foreground">Sign in to access your learning dashboard</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="px-4 py-3 border border-border rounded-lg font-medium bg-primary text-primary-foreground" data-event="click:selectStudentRole">
+                            <i class="fas fa-user-graduate mb-2 block"></i>
+                            Student
+                        </button>
+                        <button class="px-4 py-3 border border-border rounded-lg font-medium hover:bg-muted transition-colors" data-event="click:selectMentorRole">
+                            <i class="fas fa-chalkboard-teacher mb-2 block"></i>
+                            Mentor
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <input type="email" 
+                               placeholder="Email address" 
+                               class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
+                               data-bind="auth.email" />
+                        <input type="password" 
+                               placeholder="Password" 
+                               class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent"
+                               data-bind="auth.password" />
+                    </div>
+
+                    <button class="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors" data-event="click:handleEmailSignIn">
+                        Sign In with Email
+                    </button>
+
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-border"></div>
+                        </div>
+                        <div class="relative flex justify-center text-xs">
+                            <span class="bg-card px-2 text-muted-foreground">Or continue with</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="px-4 py-3 border border-border rounded-lg font-medium hover:bg-muted transition-colors flex items-center justify-center space-x-2" data-event="click:signInWithGoogle">
+                            <i class="fab fa-google text-red-500"></i>
+                            <span>Google</span>
+                        </button>
+                        <button class="px-4 py-3 border border-border rounded-lg font-medium hover:bg-muted transition-colors flex items-center justify-center space-x-2" data-event="click:signInWithGitHub">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-xs text-muted-foreground">
+                    Don't have an account? <button class="text-primary hover:underline" data-event="click:switchToSignUp">Sign up here</button>
+                </p>
+            </div>
+
+            <button class="absolute top-4 right-4 p-2 hover:bg-muted rounded-lg transition-colors" data-event="click:closeAuthModal">
+                <i class="fas fa-times text-muted-foreground"></i>
+            </button>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AuthModal -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-muted/50 border-t border-border py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-primary-foreground"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">LearnLink</span>
+                    </div>
+                    <p class="text-sm text-muted-foreground">
+                        Connecting learners with mentors through accessible, inclusive education.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Platform</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Browse Library</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Find Mentors</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Upload Content</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Community</a>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Accessibility</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">ASL Resources</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Screen Reader Guide</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Keyboard Navigation</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Accessibility Statement</a>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="font-semibold">Support</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Help Center</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Contact Us</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a>
+                        <a href="#" class="block text-muted-foreground hover:text-primary transition-colors">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-border mt-12 pt-8 text-center">
+                <p class="text-sm text-muted-foreground">
+                    © 2024 LearnLink. All rights reserved. Built with accessibility and inclusion at heart.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // TODO: Implement Firebase configuration and authentication
+        // TODO: Implement real-time messaging functionality
+        // TODO: Implement file upload with progress tracking
+        // TODO: Add form validation and error handling
+        // TODO: Implement protected routes and user role management
+
+        (function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.querySelector('[data-event="click:toggleMobileMenu"]');
+            const mobileMenu = document.querySelector('.md\\:hidden > div');
+            let isMobileMenuOpen = false;
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    isMobileMenuOpen = !isMobileMenuOpen;
+                    mobileMenu.style.display = isMobileMenuOpen ? 'block' : 'none';
+                });
+            }
+
+            // Auth modal toggle
+            const authModal = document.getElementById('authModal');
+            const signInButtons = document.querySelectorAll('[data-event="click:handleSignIn"]');
+            const closeModalButton = document.querySelector('[data-event="click:closeAuthModal"]');
+
+            signInButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    authModal.classList.remove('hidden');
+                });
+            });
+
+            if (closeModalButton) {
+                closeModalButton.addEventListener('click', function() {
+                    authModal.classList.add('hidden');
+                });
+            }
+
+            // Close modal on backdrop click
+            authModal.addEventListener('click', function(e) {
+                if (e.target === authModal) {
+                    authModal.classList.add('hidden');
+                }
+            });
+
+            // Role selection in auth modal
+            const roleButtons = document.querySelectorAll('[data-event*="Role"]');
+            roleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    roleButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-primary-foreground');
+                        btn.classList.add('hover:bg-muted');
+                    });
+                    this.classList.add('bg-primary', 'text-primary-foreground');
+                    this.classList.remove('hover:bg-muted');
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
