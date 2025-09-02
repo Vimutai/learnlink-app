@@ -1,124 +1,79 @@
-markdown
-# LearnLink - Accessible Education Platform
 
-## 🏗️ Project Structure (Monorepo)
-learnlink-app/
-├── client/ # Frontend React/Next.js application
-│ ├── src/ # Source code
-│ ├── public/ # Static assets
-│ └── package.json # Frontend dependencies
-├── server/ # Backend API server
-│ ├── src/ # Server source code
-│ └── package.json # Backend dependencies
-├── shared/ # Shared utilities and types
-│ └── package.json # Shared dependencies
-├── package.json # Root package.json (workspace config)
-└── README.md # This file
+🌟 LearnLink – Quality Education for All
 
-text
+Hackathon Submission | SDG 4: Quality Education
 
-## 🚀 Getting Started
+🎯 Our Mission
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+LearnLink is on a mission to ensure inclusive and equitable quality education for all learners, with a special focus on students with hearing impairments and other accessibility needs.
 
-### Installation
+We combine modern technology with sign language integration, captions, and accessible design to break barriers in education.
 
-1. **Install root dependencies:**
-   ```bash
-   npm install
-Install all workspace dependencies:
+🌈 How We Address SDG 4
+Challenge	Our Solution
+Millions of learners face barriers to online education	Universal access features: screen reader compatibility, keyboard navigation, high contrast modes.
+Deaf learners are often excluded from mainstream online courses	Sign Language Videos & ASL courses embedded in all lessons.
+Lack of interactive, inclusive learning content	Captions, transcripts, and practice exercises to enhance understanding for all learners.
+🚀 Key Features
 
-bash
-npm run install:all
-Development
-Frontend (Client):
+Sign Language Videos: Professional ASL interpretation for all video content.
 
-bash
-cd client
+Captions & Transcripts: Full accessibility for audio/video lessons.
+
+Interactive ASL Learning: Learn greetings, basic communication, and cultural tips.
+
+Inclusive Design: Ensures everyone can navigate and learn effectively.
+
+Modern, Scalable Tech: React, TypeScript, Express, hosted on Render.
+
+## 📸 Project Screenshots
+
+### Home Page
+Screenshots/homepageDesktop
+Screenshots/HomeMobileView
+
+### Sign Language Accessibility Section
+![Sign Language Section](./screenshots/asl-section.png)
+
+### Mentors section
+Screenshots/mentorspage
+
+Clear, accessible homepage with intuitive navigation
+
+
+Interactive ASL course promoting inclusive learning
+
+⚡ Tech Stack
+
+Frontend: React + TypeScript + Vite
+
+Backend: Node.js + Express
+
+UI/UX: Tailwind CSS + shadcn/ui
+
+Hosting: Render
+
+Accessibility: Sign language, captions, high contrast, keyboard navigation
+
+🌐 Live Demo
+
+Experience it here: https://learnlink-app.onrender.com
+
+💡 How to Run Locally
+git clone https://github.com/Vimutai/learnlink-app.git
+cd learnlink-app
+npm install
 npm run dev
-Frontend will run on http://localhost:3000
 
-Backend (Server):
+Open http://localhost:3000
+ to explore LearnLink in development.
 
-bash
-cd server
-npm run dev
-Backend will run on http://localhost:3001 (or your configured port)
+🏆 Why This Matters for the Hackathon
 
-Building for Production
-Build all workspaces:
+Directly addresses SDG 4 – Quality Education
 
-bash
-npm run build:all
-Build client only:
+Inclusive for deaf learners and learners with disabilities
 
-bash
-cd client
-npm run build
-Build server only:
+Scalable and practical technology solution
 
-bash
-cd server
-npm run build
-📦 Workspace Scripts
-From the root directory, you can run:
-
-npm run dev:client - Start client development
-
-npm run dev:server - Start server development
-
-npm run build:client - Build client for production
-
-npm run build:server - Build server for production
-
-npm run install:all - Install all workspace dependencies
-
-🛠️ Technologies Used
-Frontend:
-
-Next.js 14
-
-React 18
-
-TypeScript
-
-Tailwind CSS
-
-Vite (for development)
-
-Backend:
-
-Node.js
-
-Express/NestJS (depending on your server)
-
-Drizzle ORM
-
-PostgreSQL
-
-🌐 API Endpoints
-The server provides REST API endpoints at:
-
-GET /api/content - Fetch learning content
-
-POST /api/auth - Authentication routes
-
-Additional endpoints for mentors, courses, etc.
-
-📁 Important Files
-client/package.json - Frontend dependencies
-
-server/package.json - Backend dependencies
-
-shared/package.json - Shared utilities
-
-package.json - Root workspace configuration
-
-drizzle.config.ts - Database configuration
-
-tailwind.config.ts - Styling configuration
-
-text
-
+LearnLink isn’t just a platform—it’s a step toward truly inclusive education worldwide.
