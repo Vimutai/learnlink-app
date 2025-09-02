@@ -3,6 +3,15 @@
 
 Hackathon Submission | SDG 4: Quality Education
 
+## Pitch Deck
+
+Check out our Hackathon pitch deck here: https://gamma.app/docs/ld5s32nq3lx5hne
+
+ **GitHub Repository:** [LearnLink App](https://github.com/Vimutai/learnlink-app)
+
+ **Live App:** [LearnLink](https://learnlink-app.onrender.com)  
+
+
 🎯 Our Mission
 
 LearnLink is on a mission to ensure inclusive and equitable quality education for all learners, with a special focus on students with hearing impairments and other accessibility needs.
