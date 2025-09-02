@@ -52,10 +52,16 @@ const __dirname = path.dirname(__filename);
     if (process.env.NODE_ENV === "development") throw err;
   });
 
+  // Bind to host and port
   const port = parseInt(process.env.PORT || "3000", 10);
+  const host = "0.0.0.0";
 
   // Create HTTP server
   const server = http.createServer(app);
+
+  // Increase timeouts to prevent connection resets
+  server.keepAliveTimeout = 120_000; // 120 seconds
+  server.headersTimeout = 120_000;   // 120 seconds
 
   if (app.get("env") === "development") {
     // Vite dev server setup (HMR)
@@ -70,7 +76,7 @@ const __dirname = path.dirname(__filename);
   }
 
   // Start server
-  server.listen(port, () => {
-    log(`LearnLink server running on port ${port}`);
+  server.listen(port, host, () => {
+    log(`LearnLink server running on http://${host}:${port}`);
   });
 })();
