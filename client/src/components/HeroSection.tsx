@@ -7,21 +7,31 @@ export function HeroSection() {
     <section className="relative overflow-hidden bg-gradient-to-br from-background to-muted py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: Hero Text */}
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Connect, Learn,{" "}
+                Learn. Mentor.{" "}
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Grow
+                  Empower.
                 </span>{" "}
-                Together
+                
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Join LearnLink, the inclusive platform where students and mentors connect to share knowledge,
-                accessible content, and meaningful learning experiences.
-              </p>
+                LearnLink connects students and mentors with curated digital and print resources. Every premium purchase supports underprivileged learners.              </p>
+              <br />
+
+              {/* Mission / Social Impact */}
+              <div className="bg-green-50 p-4 rounded-lg border border-green-200 mt-6">
+                <h2 className="text-lg font-semibold text-foreground mb-2">Our Mission</h2>
+                <p className="text-sm text-muted-foreground">
+                  Our mission is to bridge educational gaps for underprivileged learners. 10% of every premium purchase goes to mentoring and digitally empowering learners in less privileged communities
+                </p>
+              </div>
+              <br />
             </div>
 
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/library">
                 <Button size="lg" className="text-lg px-8 py-4" data-testid="button-get-started">
@@ -37,6 +47,7 @@ export function HeroSection() {
               </Link>
             </div>
 
+            {/* Features */}
             <div className="flex items-center space-x-6 pt-4">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-secondary rounded-full"></div>
@@ -53,6 +64,7 @@ export function HeroSection() {
             </div>
           </div>
 
+          {/* Right: Hero Image */}
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"

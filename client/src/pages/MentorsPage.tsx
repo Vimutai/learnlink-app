@@ -1,4 +1,4 @@
-import { MentorDirectory } from "@/components/MentorDirectory";
+import MentorDirectory from "@/components/MentorDirectory"; // <-- no curly braces
 
 export default function MentorsPage() {
   return (

@@ -13,6 +13,8 @@ import MentorsPage from "@/pages/MentorsPage";
 import AccessibilityPage from "@/pages/AccessibilityPage";
 import UploadPage from "@/pages/UploadPage";
 import MessagesPage from "@/pages/MessagesPage";
+import CommunityForumPage from "@/pages/CommunityForumPage";
+import StudentPage from "./pages/StudentsPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +27,9 @@ function Router() {
       <Route path="/accessibility" component={AccessibilityPage} />
       <Route path="/upload" component={UploadPage} />
       <Route path="/messages" component={MessagesPage} />
+      <Route path="/student" component={StudentPage}/>
+      <Route path="/community" component={CommunityForumPage} />
+
       <Route component={NotFound} />
     </Switch>
   );

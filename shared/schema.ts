@@ -3,6 +3,7 @@ import { pgTable, text, varchar, timestamp, boolean, jsonb, integer } from "driz
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+/** -------------------- USERS -------------------- */
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: text("email").notNull().unique(),
@@ -14,6 +15,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/** -------------------- CONTENT -------------------- */
 export const content = pgTable("content", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   title: text("title").notNull(),
@@ -30,9 +32,11 @@ export const content = pgTable("content", {
   hasCaptions: boolean("has_captions").default(false),
   hasTranscript: boolean("has_transcript").default(false),
   isHighContrast: boolean("is_high_contrast").default(false),
+  isPremium: boolean("is_premium").default(false), // optional for premium content
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/** -------------------- MENTOR PROFILES -------------------- */
 export const mentorProfiles = pgTable("mentor_profiles", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
@@ -45,6 +49,7 @@ export const mentorProfiles = pgTable("mentor_profiles", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/** -------------------- CONVERSATIONS -------------------- */
 export const conversations = pgTable("conversations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   studentId: varchar("student_id").references(() => users.id).notNull(),
@@ -53,6 +58,7 @@ export const conversations = pgTable("conversations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/** -------------------- MESSAGES -------------------- */
 export const messages = pgTable("messages", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   conversationId: varchar("conversation_id").references(() => conversations.id).notNull(),
@@ -61,7 +67,7 @@ export const messages = pgTable("messages", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Insert schemas
+/** -------------------- INSERT SCHEMAS -------------------- */
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
@@ -92,14 +98,18 @@ export const insertMessageSchema = createInsertSchema(messages).omit({
   createdAt: true,
 });
 
-// Types
+/** -------------------- TYPES -------------------- */
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+
 export type Content = typeof content.$inferSelect;
 export type InsertContent = z.infer<typeof insertContentSchema>;
+
 export type MentorProfile = typeof mentorProfiles.$inferSelect;
 export type InsertMentorProfile = z.infer<typeof insertMentorProfileSchema>;
+
 export type Conversation = typeof conversations.$inferSelect;
 export type InsertConversation = z.infer<typeof insertConversationSchema>;
+
 export type Message = typeof messages.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
